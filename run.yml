@@ -1,0 +1,13 @@
+- name: Create image and push to repo
+  hosts: 34.125.16.250
+  become: yes
+  
+  roles:
+  - dockerbuild
+
+- name: Pull dockerfile from repo
+  hosts: 34.125.17.47
+  become: yes
+  
+  roles:
+  - dockerrun

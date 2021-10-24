@@ -1,0 +1,35 @@
+---
+#tasks file for dockerrun
+- name: Ensure that neseccary is present
+  apt:
+   name: "{{ item }}"
+   state: present
+   update_cache: yes
+  with_items:
+   - docker.io
+   - python-pip
+
+- name: Install docker-py
+  pip:
+   name: docker-py
+   
+- name: Make insecure-registries for nexus
+  lineinfile:
+   dest: /etc/docker/daemon.json
+   line: '{ "insecure-registries" : [" "{{ nxs_srv }}" "] }'
+   create: yes
+  notify:
+   - restart docker
+
+   
+- name: Login in docker registry
+  docker_login:
+   registry: "{{ nxs_srv }}"
+   username: "{{ nxs_login }}"
+   password: "{{ nxs_pswd }}"
+
+- name: Run docker container
+  docker_container:
+   name: "{{ image_name }}"
+   image: "{{ nxs_srv }}/{{ image_name }}:{{ image_tag }}"
+   state: started

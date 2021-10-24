@@ -1,0 +1,48 @@
+---
+#- name: Ensure necessary application is present
+#  apt:
+#   name: "{{ item }}"
+#   state: present
+#   update_cache: yes
+# with_items:
+#   - docker.io
+#  - python-pip
+   
+#- name: Copy dockerfile to server
+# copy:
+#   src: Dockerfile
+#   dest: "{{ path_srv }}"
+
+#- name: Install docker-py
+#  pip:
+#    name: docker-py
+
+
+#- name: Create docker image
+# docker_image: 
+#  name: "{{ nxs_srv }}/maventomcat"
+#   tag: v1
+#   path: "{{ path_srv }}"
+#   push: yes
+#   #source: build
+#   state: present
+#   build_path: "{{ path_srv }}"
+  
+##- name: docker_service
+##  docker_service:
+##   project_name: maventomcat
+##   project_src: "{{ path_srv }}"
+##  state: present
+
+#- name: Login into registry
+#  docker_login:
+#   registry: 34.150.212.102:8888
+#   username: admin
+#   password: admin123
+    
+- name: Push docker-image in registry
+  docker_image:
+   name: 34.125.17.47:8088/maventomcat
+   tag: v3
+   path: "{{ path_srv }}"
+   push: yes

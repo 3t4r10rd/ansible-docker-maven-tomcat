@@ -1,0 +1,8 @@
+---
+path_srv: /home/docker/
+nxs_srv: 34.125.53.12:8888
+image_name: maventomcat
+image_tag: 1
+nxs_login: admin
+nxs_pswd: admin123
+# defaults file for dockerbuild
